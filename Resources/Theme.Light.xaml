@@ -1,0 +1,61 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Windows 11 Light Theme Brushes -->
+    <SolidColorBrush x:Key="Brush_AppBackground" Color="#F3F3F3" />
+    <SolidColorBrush x:Key="Brush_NavBackground" Color="#EAEAEA" />
+    <SolidColorBrush x:Key="Brush_HeaderBackground" Color="#F8F8F8" />
+    <SolidColorBrush x:Key="Brush_CardBackground" Color="#FFFFFF" />
+    <SolidColorBrush x:Key="Brush_CardBackgroundSecondary" Color="#F9F9FB" />
+    <SolidColorBrush x:Key="Brush_CardBackgroundHover" Color="#F5F5F7" />
+    <SolidColorBrush x:Key="Brush_CardBorder" Color="#E5E5E5" />
+    <SolidColorBrush x:Key="Brush_CardBorderSubtle" Color="#F0F0F0" />
+    <SolidColorBrush x:Key="Brush_Separator" Color="#E5E5E5" />
+
+    <!-- Typography Brushes -->
+    <SolidColorBrush x:Key="Brush_TextPrimary" Color="#1E1E1E" />
+    <SolidColorBrush x:Key="Brush_TextSecondary" Color="#5C5C5C" />
+    <SolidColorBrush x:Key="Brush_TextTertiary" Color="#8A8A8A" />
+
+    <!-- Brand / Accent -->
+    <SolidColorBrush x:Key="Brush_Accent" Color="#0067C0" />
+    <SolidColorBrush x:Key="Brush_AccentHover" Color="#1879CD" />
+    <SolidColorBrush x:Key="Brush_AccentPressed" Color="#005AA4" />
+    <SolidColorBrush x:Key="Brush_AccentText" Color="#FFFFFF" />
+    <SolidColorBrush x:Key="Brush_AccentSubtleBg" Color="#EFF6FC" />
+
+    <!-- Controls -->
+    <SolidColorBrush x:Key="Brush_SearchBackground" Color="#FFFFFF" />
+    <SolidColorBrush x:Key="Brush_SearchBorder" Color="#D1D1D1" />
+    <SolidColorBrush x:Key="Brush_ButtonSecondaryBackground" Color="#FDFDFD" />
+    <SolidColorBrush x:Key="Brush_ButtonSecondaryBorder" Color="#D1D1D1" />
+    <SolidColorBrush x:Key="Brush_ButtonSecondaryHover" Color="#F5F5F5" />
+
+    <!-- Navigation -->
+    <SolidColorBrush x:Key="Brush_NavHover" Color="#0000000B" />
+    <SolidColorBrush x:Key="Brush_NavSelected" Color="#00000014" />
+    <SolidColorBrush x:Key="Brush_NavSelectedIndicator" Color="#0067C0" />
+    <SolidColorBrush x:Key="Brush_NavTextSelected" Color="#0067C0" />
+
+    <!-- Semantic Status -->
+    <SolidColorBrush x:Key="Brush_StatusGood" Color="#107C41" />
+    <SolidColorBrush x:Key="Brush_StatusGoodBg" Color="#EBF3EE" />
+    <SolidColorBrush x:Key="Brush_StatusGoodBorder" Color="#C7E0D0" />
+
+    <SolidColorBrush x:Key="Brush_StatusWarning" Color="#C25400" />
+    <SolidColorBrush x:Key="Brush_StatusWarningBg" Color="#FFF4CE" />
+    <SolidColorBrush x:Key="Brush_StatusWarningBorder" Color="#FDE792" />
+
+    <SolidColorBrush x:Key="Brush_StatusError" Color="#C42B1C" />
+    <SolidColorBrush x:Key="Brush_StatusErrorBg" Color="#FDF3F2" />
+    <SolidColorBrush x:Key="Brush_StatusErrorBorder" Color="#F7CAC7" />
+
+    <SolidColorBrush x:Key="Brush_StatusInfo" Color="#005FB8" />
+    <SolidColorBrush x:Key="Brush_StatusInfoBg" Color="#EBF3FC" />
+    <SolidColorBrush x:Key="Brush_StatusInfoBorder" Color="#B8D8F8" />
+
+    <SolidColorBrush x:Key="Brush_ProgressBarBackground" Color="#E6E6E6" />
+    <SolidColorBrush x:Key="Brush_AvatarBackground" Color="#0067C0" />
+    <SolidColorBrush x:Key="Brush_AvatarText" Color="#FFFFFF" />
+
+</ResourceDictionary>

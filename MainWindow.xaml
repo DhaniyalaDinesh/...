@@ -1,0 +1,455 @@
+<Window x:Class="WPFUI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:WPFUI.ViewModels"
+        xmlns:views="clr-namespace:WPFUI.Views"
+        mc:Ignorable="d"
+        Title="IWS Endpoint Companion" 
+        Height="840" Width="1300"
+        MinHeight="680" MinWidth="1000"
+        WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource Brush_AppBackground}">
+
+    <!-- Design-Time Context (Runtime DataContext resolved via Dependency Injection) -->
+    <d:Window.DataContext>
+        <vm:MainViewModel />
+    </d:Window.DataContext>
+
+    <Window.InputBindings>
+        <KeyBinding Modifiers="Control" Key="B" Command="{Binding ToggleNavCommand}" />
+        <KeyBinding Modifiers="Alt" Key="M" Command="{Binding ToggleNavCommand}" />
+    </Window.InputBindings>
+
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+
+        <!-- DataTemplate for HomeViewModel -->
+        <DataTemplate DataType="{x:Type vm:HomeViewModel}">
+            <views:HomeView />
+        </DataTemplate>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <!-- Left Collapsible Navigation Column -->
+            <ColumnDefinition Width="{Binding NavWidth, Mode=OneWay}" />
+            <!-- Main Content Area Column -->
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!-- ============================================================== -->
+        <!-- LEFT NAVIGATION PANEL                                          -->
+        <!-- ============================================================== -->
+        <Border Grid.Column="0" 
+                Background="{DynamicResource Brush_NavBackground}"
+                BorderBrush="{DynamicResource Brush_Separator}"
+                BorderThickness="0,0,1,0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <!-- Brand & Collapse Toggle Header -->
+                    <RowDefinition Height="64" />
+                    <!-- Navigation Items List -->
+                    <RowDefinition Height="*" />
+                    <!-- Bottom Version / Status Footer -->
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <!-- App Brand Header + Toggle Button -->
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <!-- Consistent Toggle Button Column (64px wide, identical in both states) -->
+                        <ColumnDefinition Width="64" />
+                        <!-- Brand (Logo + App Title) Column (Visible when expanded) -->
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Collapse / Expand Toggle Button (Permanently visible in consistent position) -->
+                    <Button Grid.Column="0" 
+                            x:Name="btnToggleNav"
+                            Command="{Binding ToggleNavCommand}"
+                            AutomationProperties.Name="{DynamicResource Str_Nav_Toggle_AutomationName}"
+                            AutomationProperties.HelpText="{DynamicResource Str_Nav_Toggle_AutomationHelp}"
+                            Width="36" Height="36"
+                            HorizontalAlignment="Center" 
+                            VerticalAlignment="Center">
+                        <Button.Style>
+                            <Style TargetType="Button" BasedOn="{StaticResource ModernIconButton}">
+                                <Setter Property="ToolTip" Value="{DynamicResource Str_Nav_ToggleTooltip_Collapse}" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsNavExpanded}" Value="False">
+                                        <Setter Property="ToolTip" Value="{DynamicResource Str_Nav_ToggleTooltip_Expand}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                        <Path Data="{StaticResource Icon_MenuToggle}" 
+                              Width="16" Height="16" 
+                              Stretch="Uniform" 
+                              Fill="{DynamicResource Brush_TextPrimary}" 
+                              HorizontalAlignment="Center" 
+                              VerticalAlignment="Center" />
+                    </Button>
+
+                    <!-- App Brand: Logo + Title (Visible when expanded) -->
+                    <StackPanel Grid.Column="1" 
+                                Orientation="Horizontal" 
+                                VerticalAlignment="Center" 
+                                Margin="0,0,12,0"
+                                Visibility="{Binding IsNavExpanded, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <!-- App Logo Icon -->
+                        <Border Width="32" Height="32" 
+                                CornerRadius="8" 
+                                Background="{DynamicResource Brush_Accent}" 
+                                VerticalAlignment="Center">
+                            <Path Data="{StaticResource Icon_MyPC}" 
+                                  Width="16" Height="16" 
+                                  Stretch="Uniform" 
+                                  Fill="{DynamicResource Brush_AccentText}" 
+                                  HorizontalAlignment="Center" 
+                                  VerticalAlignment="Center" />
+                        </Border>
+
+                        <!-- App Title & Subtitle -->
+                        <StackPanel VerticalAlignment="Center" Margin="10,0,0,0">
+                            <TextBlock Text="{DynamicResource Str_AppName}" 
+                                       FontWeight="Bold" 
+                                       FontSize="13" 
+                                       Foreground="{DynamicResource Brush_TextPrimary}" />
+                            <TextBlock Text="{DynamicResource Str_AppSubtitle}" 
+                                       FontSize="11" 
+                                       Foreground="{DynamicResource Brush_TextSecondary}" />
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Navigation Items -->
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <ItemsControl ItemsSource="{Binding NavigationItems}" Margin="8,8,8,0">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button Command="{Binding Command}" 
+                                        CommandParameter="{Binding}"
+                                        Margin="0,2,0,2"
+                                        Height="40"
+                                        Cursor="Hand"
+                                        Focusable="True"
+                                        IsTabStop="True"
+                                        AutomationProperties.Name="{Binding Title}"
+                                        ToolTipService.InitialShowDelay="100"
+                                        ToolTipService.BetweenShowDelay="50"
+                                        ToolTipService.ShowDuration="10000">
+                                    <Button.Style>
+                                        <Style TargetType="Button">
+                                            <Setter Property="ToolTip" Value="{x:Null}" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding DataContext.IsNavExpanded, RelativeSource={RelativeSource AncestorType=Window}}" Value="False">
+                                                    <Setter Property="ToolTip" Value="{Binding Title}" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border x:Name="navBorder" 
+                                                    CornerRadius="6" 
+                                                    Background="Transparent"
+                                                    BorderBrush="Transparent"
+                                                    BorderThickness="1"
+                                                    Padding="0">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <!-- Fixed Icon Column (Width 48) with Indicator Bar inside -->
+                                                        <ColumnDefinition Width="48" />
+                                                        <!-- Label Column -->
+                                                        <ColumnDefinition Width="*" />
+                                                        <!-- Badge Column (for Alerts) -->
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <!-- Selected Indicator Bar (left edge) -->
+                                                    <Border Grid.Column="0" 
+                                                            x:Name="indicatorBar"
+                                                            Background="Transparent" 
+                                                            CornerRadius="1.5" 
+                                                            Width="3"
+                                                            Height="20"
+                                                            HorizontalAlignment="Left"
+                                                            VerticalAlignment="Center"
+                                                            Margin="2,0,0,0" />
+
+                                                    <!-- Icon (Centered in Column 0, matching Toggle Button vertical centerline) -->
+                                                    <Path Grid.Column="0" 
+                                                          x:Name="navIcon"
+                                                          Width="18" Height="18" 
+                                                          Stretch="Uniform" 
+                                                          HorizontalAlignment="Center" 
+                                                          VerticalAlignment="Center"
+                                                          Fill="{DynamicResource Brush_TextSecondary}">
+                                                        <Path.Style>
+                                                            <Style TargetType="Path">
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding IconResourceKey}" Value="Icon_Home">
+                                                                        <Setter Property="Data" Value="{StaticResource Icon_Home}" />
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding IconResourceKey}" Value="Icon_FixIssue">
+                                                                        <Setter Property="Data" Value="{StaticResource Icon_FixIssue}" />
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding IconResourceKey}" Value="Icon_Optimize">
+                                                                        <Setter Property="Data" Value="{StaticResource Icon_Optimize}" />
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding IconResourceKey}" Value="Icon_Alerts">
+                                                                        <Setter Property="Data" Value="{StaticResource Icon_Alerts}" />
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding IconResourceKey}" Value="Icon_MyPC">
+                                                                        <Setter Property="Data" Value="{StaticResource Icon_MyPC}" />
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding IconResourceKey}" Value="Icon_History">
+                                                                        <Setter Property="Data" Value="{StaticResource Icon_History}" />
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding IconResourceKey}" Value="Icon_Tools">
+                                                                        <Setter Property="Data" Value="{StaticResource Icon_Tools}" />
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding IconResourceKey}" Value="Icon_Support">
+                                                                        <Setter Property="Data" Value="{StaticResource Icon_Support}" />
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding IconResourceKey}" Value="Icon_Settings">
+                                                                        <Setter Property="Data" Value="{StaticResource Icon_Settings}" />
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Path.Style>
+                                                    </Path>
+
+                                                    <!-- Label (Visible when expanded) -->
+                                                    <TextBlock Grid.Column="1" 
+                                                               x:Name="navLabel"
+                                                               Text="{Binding Title}" 
+                                                               FontSize="13" 
+                                                               FontWeight="Medium" 
+                                                               Foreground="{DynamicResource Brush_TextPrimary}" 
+                                                               VerticalAlignment="Center" 
+                                                               Margin="4,0,0,0"
+                                                               Visibility="{Binding DataContext.IsNavExpanded, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+                                                    <!-- Alert Badge Pill -->
+                                                    <Border Grid.Column="2" 
+                                                            x:Name="alertBadge"
+                                                            Visibility="{Binding HasBadge, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                                            Background="{DynamicResource Brush_StatusErrorBg}" 
+                                                            BorderBrush="{DynamicResource Brush_StatusErrorBorder}"
+                                                            BorderThickness="1"
+                                                            CornerRadius="9" 
+                                                            Height="18" 
+                                                            MinWidth="18" 
+                                                            Padding="4,0" 
+                                                            Margin="0,0,8,0"
+                                                            VerticalAlignment="Center">
+                                                        <TextBlock Text="{Binding BadgeCount}" 
+                                                                   FontSize="10" 
+                                                                   FontWeight="Bold" 
+                                                                   Foreground="{DynamicResource Brush_StatusError}" 
+                                                                   HorizontalAlignment="Center" 
+                                                                   VerticalAlignment="Center" />
+                                                    </Border>
+                                                </Grid>
+                                            </Border>
+
+                                            <ControlTemplate.Triggers>
+                                                <!-- Selected State -->
+                                                <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                                    <Setter TargetName="navBorder" Property="Background" Value="{DynamicResource Brush_NavSelected}" />
+                                                    <Setter TargetName="indicatorBar" Property="Background" Value="{DynamicResource Brush_NavSelectedIndicator}" />
+                                                    <Setter TargetName="navIcon" Property="Fill" Value="{DynamicResource Brush_Accent}" />
+                                                    <Setter TargetName="navLabel" Property="FontWeight" Value="SemiBold" />
+                                                    <Setter TargetName="navLabel" Property="Foreground" Value="{DynamicResource Brush_Accent}" />
+                                                </DataTrigger>
+                                                <!-- Mouse Over -->
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="navBorder" Property="Background" Value="{DynamicResource Brush_NavHover}" />
+                                                </Trigger>
+                                                <!-- Keyboard Focused -->
+                                                <Trigger Property="IsKeyboardFocused" Value="True">
+                                                    <Setter TargetName="navBorder" Property="Background" Value="{DynamicResource Brush_NavHover}" />
+                                                    <Setter TargetName="navBorder" Property="BorderBrush" Value="{DynamicResource Brush_Accent}" />
+                                                </Trigger>
+                                                <!-- When Collapsed: Hide Alert Badge and attach tooltip to Icon -->
+                                                <DataTrigger Binding="{Binding DataContext.IsNavExpanded, RelativeSource={RelativeSource AncestorType=Window}}" Value="False">
+                                                    <Setter TargetName="alertBadge" Property="Visibility" Value="Collapsed" />
+                                                    <Setter TargetName="navIcon" Property="ToolTip" Value="{Binding Title}" />
+                                                </DataTrigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+
+                <!-- Sidebar Footer: Session indicator -->
+                <Border Grid.Row="2" 
+                        BorderBrush="{DynamicResource Brush_Separator}" 
+                        BorderThickness="0,1,0,0" 
+                        Padding="14,12" 
+                        Visibility="{Binding IsNavExpanded, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <StackPanel Orientation="Horizontal">
+                        <Ellipse Width="8" Height="8" Fill="{DynamicResource Brush_StatusGood}" Margin="0,0,8,0" VerticalAlignment="Center" />
+                        <TextBlock Text="{DynamicResource Str_Footer_Status}" FontSize="11" Foreground="{DynamicResource Brush_TextTertiary}" VerticalAlignment="Center" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- ============================================================== -->
+        <!-- MAIN CONTENT AREA (Header + Body)                             -->
+        <!-- ============================================================== -->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <!-- Top Header Row -->
+                <RowDefinition Height="64" />
+                <!-- Content View Row -->
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!-- ========================================== -->
+            <!-- TOP HEADER                                 -->
+            <!-- ========================================== -->
+            <Border Grid.Row="0" 
+                    Background="{DynamicResource Brush_HeaderBackground}"
+                    BorderBrush="{DynamicResource Brush_Separator}"
+                    BorderThickness="0,0,0,1"
+                    Padding="32,0,32,0">
+                <Grid VerticalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <!-- Current Page Title -->
+                        <ColumnDefinition Width="Auto" />
+                        <!-- Search Box Column -->
+                        <ColumnDefinition Width="*" />
+                        <!-- Right Utilities & Profile Column -->
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Page Title -->
+                    <TextBlock Grid.Column="0" 
+                               Text="{Binding PageTitle}" 
+                               FontSize="18" 
+                               FontWeight="SemiBold" 
+                               Foreground="{DynamicResource Brush_TextPrimary}" 
+                               VerticalAlignment="Center" 
+                               Margin="0,0,24,0" />
+
+                    <!-- Search Box -->
+                    <TextBox Grid.Column="1" 
+                             Style="{StaticResource ModernSearchTextBox}" 
+                             Text="{Binding SearchQuery, UpdateSourceTrigger=PropertyChanged}" 
+                             ToolTip="{DynamicResource Str_Header_SearchPlaceholder}"
+                             MaxWidth="420" 
+                             HorizontalAlignment="Left" 
+                             Width="360" />
+
+                    <!-- Right Header Controls -->
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+
+                        <!-- Agent Connection Status Indicator -->
+                        <Border Background="{DynamicResource Brush_StatusGoodBg}"
+                                BorderBrush="{DynamicResource Brush_StatusGoodBorder}"
+                                BorderThickness="1"
+                                CornerRadius="14"
+                                Padding="10,4"
+                                Margin="0,0,16,0"
+                                VerticalAlignment="Center">
+                            <StackPanel Orientation="Horizontal">
+                                <Ellipse Width="7" Height="7" Fill="{DynamicResource Brush_StatusGood}" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding AgentStatusText}" 
+                                           FontSize="11" 
+                                           FontWeight="SemiBold" 
+                                           Foreground="{DynamicResource Brush_StatusGood}" 
+                                           VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Theme Toggle Button (Light / Dark) -->
+                        <Button Style="{StaticResource ModernIconButton}" 
+                                Command="{Binding ToggleThemeCommand}" 
+                                ToolTip="{DynamicResource Str_Header_ThemeTooltip}"
+                                Margin="0,0,8,0">
+                            <Path Width="16" Height="16" 
+                                  Stretch="Uniform" 
+                                  Fill="{DynamicResource Brush_TextSecondary}">
+                                <Path.Style>
+                                    <Style TargetType="Path">
+                                        <Setter Property="Data" Value="{StaticResource Icon_Sun}" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsDarkTheme}" Value="True">
+                                                <Setter Property="Data" Value="{StaticResource Icon_Moon}" />
+                                                <Setter Property="Fill" Value="{DynamicResource Brush_Accent}" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Path.Style>
+                            </Path>
+                        </Button>
+
+                        <!-- Notifications / Alert Icon with Badge -->
+                        <Grid Margin="0,0,16,0">
+                            <Button Style="{StaticResource ModernIconButton}" 
+                                    ToolTip="{DynamicResource Str_Header_AlertsTooltip}">
+                                <Path Data="{StaticResource Icon_Alerts}" 
+                                      Width="16" Height="16" 
+                                      Stretch="Uniform" 
+                                      Fill="{DynamicResource Brush_TextSecondary}" />
+                            </Button>
+                            <!-- Alert Count Badge -->
+                            <Border Background="{DynamicResource Brush_StatusError}" 
+                                    CornerRadius="7" 
+                                    Height="14" MinWidth="14" 
+                                    Padding="3,0" 
+                                    HorizontalAlignment="Right" 
+                                    VerticalAlignment="Top" 
+                                    Margin="0,3,3,0">
+                                <TextBlock Text="{Binding AlertCount}" 
+                                           FontSize="9" 
+                                           FontWeight="Bold" 
+                                           Foreground="#FFFFFF" 
+                                           HorizontalAlignment="Center" 
+                                           VerticalAlignment="Center" />
+                            </Border>
+                        </Grid>
+
+                        <!-- Separator -->
+                        <Rectangle Width="1" Height="24" Fill="{DynamicResource Brush_Separator}" Margin="0,0,16,0" />
+
+                        <!-- User Profile Area -->
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <!-- Avatar circle with initials -->
+                            <Border Width="32" Height="32" 
+                                    CornerRadius="16" 
+                                    Background="{DynamicResource Brush_AvatarBackground}" 
+                                    Margin="0,0,10,0">
+                                <TextBlock Text="{Binding UserInitials}" 
+                                           FontWeight="Bold" 
+                                           FontSize="12" 
+                                           Foreground="{DynamicResource Brush_AvatarText}" 
+                                           HorizontalAlignment="Center" 
+                                           VerticalAlignment="Center" />
+                            </Border>
+                            <!-- User Name -->
+                            <TextBlock Text="{Binding UserName}" 
+                                       FontWeight="Medium" 
+                                       FontSize="13" 
+                                       Foreground="{DynamicResource Brush_TextPrimary}" 
+                                       VerticalAlignment="Center" />
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- ========================================== -->
+            <!-- ACTIVE SCREEN CONTENT (HomeView)           -->
+            <!-- ========================================== -->
+            <ContentControl Grid.Row="1" Content="{Binding CurrentPageViewModel}" />
+        </Grid>
+    </Grid>
+</Window>

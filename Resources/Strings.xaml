@@ -1,0 +1,101 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- App Branding -->
+    <sys:String x:Key="Str_AppName">IWS Endpoint</sys:String>
+    <sys:String x:Key="Str_AppSubtitle">Companion</sys:String>
+    <sys:String x:Key="Str_AppShortName">IWS</sys:String>
+
+    <!-- Navigation Labels -->
+    <sys:String x:Key="Str_Nav_Home">Home</sys:String>
+    <sys:String x:Key="Str_Nav_FixIssue">Fix an Issue</sys:String>
+    <sys:String x:Key="Str_Nav_Optimize">Optimize Performance</sys:String>
+    <sys:String x:Key="Str_Nav_Alerts">Alerts</sys:String>
+    <sys:String x:Key="Str_Nav_MyPC">My PC</sys:String>
+    <sys:String x:Key="Str_Nav_History">History</sys:String>
+    <sys:String x:Key="Str_Nav_Tools">Tools</sys:String>
+    <sys:String x:Key="Str_Nav_Support">Support</sys:String>
+    <sys:String x:Key="Str_Nav_Settings">Settings</sys:String>
+
+    <!-- Navigation & Sidebar Controls -->
+    <sys:String x:Key="Str_Footer_Status">Endpoint Online • v1.0.0</sys:String>
+    <sys:String x:Key="Str_Nav_ToggleTooltip_Expand">Expand Navigation</sys:String>
+    <sys:String x:Key="Str_Nav_ToggleTooltip_Collapse">Collapse Navigation</sys:String>
+    <sys:String x:Key="Str_Nav_Toggle_AutomationName">Toggle navigation sidebar</sys:String>
+    <sys:String x:Key="Str_Nav_Toggle_AutomationHelp">Expands or collapses the navigation sidebar</sys:String>
+
+    <!-- Header -->
+    <sys:String x:Key="Str_Header_SearchPlaceholder">Search fixes, alerts, tools...</sys:String>
+    <sys:String x:Key="Str_Header_AgentConnected">Agent Connected</sys:String>
+    <sys:String x:Key="Str_Header_ThemeTooltip">Toggle Theme (Light / Dark)</sys:String>
+    <sys:String x:Key="Str_Header_AlertsTooltip">Notifications &amp; Alerts</sys:String>
+
+    <!-- Home Welcome Section -->
+    <sys:String x:Key="Str_Home_Greeting">Good morning, Dinesh</sys:String>
+    <sys:String x:Key="Str_Home_Subtitle">Here's the current health status and approved self-service actions for your PC.</sys:String>
+    <sys:String x:Key="Str_Home_DeviceBadge">DEVICE:</sys:String>
+    <sys:String x:Key="Str_Home_LastUpdatedPrefix">Last updated:</sys:String>
+
+    <!-- Overall PC Health -->
+    <sys:String x:Key="Str_Overall_Title">Overall PC Health</sys:String>
+    <sys:String x:Key="Str_Overall_Status_Good">Good</sys:String>
+    <sys:String x:Key="Str_Overall_Score_Label">Health Score</sys:String>
+    <sys:String x:Key="Str_Overall_Score_Word">Score</sys:String>
+    <sys:String x:Key="Str_Overall_Summary">Your endpoint security subsystems are active and operational. 1 non-critical optimization recommended.</sys:String>
+
+    <!-- Subsystems & Status Metrics -->
+    <sys:String x:Key="Str_Subsystems_Active">Subsystems Active</sys:String>
+    <sys:String x:Key="Str_Subsystems_MonitoredCount">6 of 6 Monitored</sys:String>
+    <sys:String x:Key="Str_Subsystems_Section">System Subsystems</sys:String>
+
+    <!-- Health Cards -->
+    <sys:String x:Key="Str_Card_DiskSpace">Disk Space</sys:String>
+    <sys:String x:Key="Str_Card_Antivirus">Antivirus</sys:String>
+    <sys:String x:Key="Str_Card_BitLocker">BitLocker</sys:String>
+    <sys:String x:Key="Str_Card_Battery">Battery</sys:String>
+    <sys:String x:Key="Str_Card_WindowsUpdate">Windows Update</sys:String>
+    <sys:String x:Key="Str_Card_AgentConnection">Agent Connection</sys:String>
+
+    <!-- Card Status Details -->
+    <sys:String x:Key="Str_Status_Optimal">Optimal</sys:String>
+    <sys:String x:Key="Str_Status_Protected">Protected</sys:String>
+    <sys:String x:Key="Str_Status_Encrypted">Encrypted</sys:String>
+    <sys:String x:Key="Str_Status_Healthy">Healthy</sys:String>
+    <sys:String x:Key="Str_Status_UpToDate">Up to date</sys:String>
+    <sys:String x:Key="Str_Status_Connected">Connected</sys:String>
+    <sys:String x:Key="Str_Status_Attention">Attention Needed</sys:String>
+
+    <!-- Section Titles -->
+    <sys:String x:Key="Str_Section_SuggestedFixes">Suggested Fixes</sys:String>
+    <sys:String x:Key="Str_Section_SuggestedFixes_Subtitle">Approved one-click remediations curated for your device</sys:String>
+    <sys:String x:Key="Str_Section_TopAlerts">Top Alerts</sys:String>
+    <sys:String x:Key="Str_Section_TopAlerts_Subtitle">Issues detected by the endpoint background agent</sys:String>
+    <sys:String x:Key="Str_Section_RecentActivity">Recent Activity</sys:String>
+    <sys:String x:Key="Str_Section_RecentActivity_Subtitle">History of executions and health diagnostics</sys:String>
+    <sys:String x:Key="Str_Section_WindowsUpdate">Windows Update Summary</sys:String>
+
+    <!-- Windows Update Section -->
+    <sys:String x:Key="Str_Update_PatchCompliance">System patch compliance</sys:String>
+    <sys:String x:Key="Str_Update_ComplianceMessage">Device is compliant with IT policies</sys:String>
+    <sys:String x:Key="Str_Update_PendingLabel">Pending Updates:</sys:String>
+    <sys:String x:Key="Str_Update_LastCheckedLabel">Last Checked:</sys:String>
+
+    <!-- Buttons -->
+    <sys:String x:Key="Str_Btn_Fix">Run Fix</sys:String>
+    <sys:String x:Key="Str_Btn_View">View</sys:String>
+    <sys:String x:Key="Str_Btn_Dismiss">Dismiss</sys:String>
+    <sys:String x:Key="Str_Btn_ViewAll">View All</sys:String>
+    <sys:String x:Key="Str_Btn_CheckUpdates">Check for Updates</sys:String>
+
+    <!-- Table Headers -->
+    <sys:String x:Key="Str_Th_Action">Action</sys:String>
+    <sys:String x:Key="Str_Th_DateTime">Date &amp; Time</sys:String>
+    <sys:String x:Key="Str_Th_Status">Status</sys:String>
+    <sys:String x:Key="Str_Th_Duration">Duration</sys:String>
+
+    <!-- Placeholder Dialogue -->
+    <sys:String x:Key="Str_Dialog_Placeholder_Title">Screen Placeholder</sys:String>
+    <sys:String x:Key="Str_Dialog_Placeholder_Message">This screen is a placeholder for design demonstration in Phase 2/3. This screen will be implemented in subsequent phases.</sys:String>
+
+</ResourceDictionary>
